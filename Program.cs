@@ -156,4 +156,10 @@ app.MapGroup("/api/fixed-reservations").MapFixedReservationEndpoints().WithTags(
 app.MapGroup("/api/reservations").MapReservationEndpoints().WithTags("Reservations").RequireAuthorization();
 app.MapGroup("/api/users").MapUserEndpoints().WithTags("Users");
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 app.Run();
