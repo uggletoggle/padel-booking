@@ -12,6 +12,7 @@ using PadelBooking.Api.Security;
 using PadelBooking.Api.Services;
 using PadelBooking.Api.Data.Repositories;
 using PadelBooking.Api.Data;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -123,6 +124,11 @@ builder.Services.AddAuthorizationBuilder()
 TypeAdapterConfig.GlobalSettings.Scan(typeof(MappingConfig).Assembly);
 
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

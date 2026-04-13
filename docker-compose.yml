@@ -36,6 +36,9 @@ services:
     container_name: padelbooking-keycloak
     command: start-dev
     environment:
+      KC_HOSTNAME: auth.padel-booking.duckdns.org
+      KC_PROXY_HEADERS: xforwarded
+      KC_HTTP_RELATIVE_PATH: /
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
       KC_DB_USERNAME: keycloak
@@ -58,7 +61,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=PadelBookingDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True"
-      Keycloak__Authority: "http://keycloak:8080/realms/padelbooking"
+      Keycloak__Authority: "https://auth.tudominio.com/realms/padelbooking"
       Keycloak__Audience: "padelbooking-api"
       Keycloak__AdminClientId: "admin-keycloak-id"
       Keycloak__AdminClientSecret: "${KEYCLOAK_ADMIN_CLIENT_SECRET:-admin-secret}"
@@ -70,6 +73,25 @@ services:
       keycloak:
         condition: service_started
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: padelbooking-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+      - keycloak
 volumes:
   sqlserver-data:
   keycloak-db-data:
+  caddy_data:      # Importante para persistir certificados
+  caddy_config:
+
+
+  
