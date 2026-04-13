@@ -61,7 +61,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: "Server=sqlserver;Database=PadelBookingDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True"
-      Keycloak__Authority: "https://auth.tudominio.com/realms/padelbooking"
+      Keycloak__Authority: "https://auth.padel-booking.duckdns.org/realms/padelbooking"
       Keycloak__Audience: "padelbooking-api"
       Keycloak__AdminClientId: "admin-keycloak-id"
       Keycloak__AdminClientSecret: "${KEYCLOAK_ADMIN_CLIENT_SECRET:-admin-secret}"
