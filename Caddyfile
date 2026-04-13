@@ -1,5 +1,5 @@
 api.padel-booking.duckdns.org {
-    reverse_proxy api:5000
+    reverse_proxy api:8080
 }
 
 auth.padel-booking.duckdns.org {
