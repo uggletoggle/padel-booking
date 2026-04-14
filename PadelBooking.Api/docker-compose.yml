@@ -84,7 +84,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
       Keycloak__Authority: "https://auth.padel-booking.duckdns.org/realms/padelbooking"
-      Keycloak__MetadataAddress: "http://keycloak:8080/realms/padelbooking/.well-known/openid-configuration"
+      Keycloak__MetadataAddress: "https://auth.padel-booking.duckdns.org/realms/padelbooking/.well-known/openid-configuration"
       Keycloak__ClientId: "padelbooking-admin"
       Keycloak__ClientSecret: "${KEYCLOAK_ADMIN_CLIENT_SECRET:-admin-secret}"
       Keycloak__RequireHttpsMetadata: "false"
