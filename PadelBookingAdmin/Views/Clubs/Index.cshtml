@@ -1,0 +1,60 @@
+@model List<PadelBookingAdmin.Models.Clubs.ClubResponse>
+
+@{
+    ViewData["Title"] = "Clubs Management";
+}
+
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 class="card-title" style="margin: 0;">Clubs List</h2>
+        <a asp-action="Create" class="btn btn-primary">+ Add New Club</a>
+    </div>
+
+    @if(!Model.Any())
+    {
+        <p style="color: var(--text-muted);">No clubs have been registered yet.</p>
+    } 
+    else 
+    {
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Open Time</th>
+                        <th>Close Time</th>
+                        <th>Status</th>
+                        <th>Courts</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var club in Model)
+                    {
+                        <tr>
+                            <td><strong>@club.Name</strong></td>
+                            <td>@club.Address</td>
+                            <td>@club.OpenTime</td>
+                            <td>@club.CloseTime</td>
+                            <td>
+                                @if(club.IsActive) {
+                                    <span style="color: var(--primary); font-weight: bold;">Active</span>
+                                } else {
+                                    <span style="color: #ef4444; font-weight: bold;">Inactive</span>
+                                }
+                            </td>
+                            <td>@(club.Courts?.Count ?? 0)</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@club.Id" class="btn" style="background-color: var(--bg-color); color: var(--text-color); margin-right: 0.5rem; padding: 0.25rem 0.5rem; font-size: 0.875rem;">Edit</a>
+                                <form asp-action="Delete" asp-route-id="@club.Id" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this club?');">
+                                    <button type="submit" class="btn" style="background-color: #ef4444; color: white; padding: 0.25rem 0.5rem; font-size: 0.875rem;">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

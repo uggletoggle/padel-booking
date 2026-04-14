@@ -1,0 +1,33 @@
+@using System.Security.Claims
+@model List<Claim>
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="card">
+    <h2 class="card-title">Profile Data</h2>
+    <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
+        Here is the identity data retrieved from Keycloak for the current session.
+    </p>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Claim Type</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var claim in Model)
+                {
+                    <tr>
+                        <td><strong>@claim.Type.Split('/').Last()</strong></td>
+                        <td>@claim.Value</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -2,6 +2,10 @@ api.padel-booking.duckdns.org {
     reverse_proxy api:8080
 }
 
+admin.padel-booking.duckdns.org {
+    reverse_proxy admin:8080
+}
+
 auth.padel-booking.duckdns.org {
     reverse_proxy keycloak:8080
 }

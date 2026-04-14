@@ -1,0 +1,42 @@
+@model PadelBookingAdmin.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="card" style="border-left: 4px solid #ef4444; max-width: 800px; margin: 0 auto; margin-top: 2rem;">
+    <h2 style="color: #ef4444; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        Oops! An error occurred.
+    </h2>
+    
+    <p style="color: var(--text-color); margin-bottom: 1.5rem; font-size: 1.1rem;">
+        We're sorry, but something went wrong while processing your request.
+    </p>
+
+    @if (Model.ShowRequestId)
+    {
+        <div style="background-color: var(--bg-color); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem; font-family: monospace;">
+            <strong>Request ID:</strong> <span>@Model.RequestId</span>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.ExceptionMessage))
+    {
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Error Details:</h3>
+        <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem; word-break: break-word;">
+            <strong>@Model.ExceptionMessage</strong>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.StackTrace))
+    {
+        <details>
+            <summary style="cursor: pointer; font-weight: 500; color: var(--text-muted); margin-bottom: 1rem;">View Stack Trace</summary>
+            <pre style="background-color: var(--sidebar-bg); color: #d1d5db; padding: 1rem; border-radius: var(--border-radius); overflow-x: auto; font-size: 0.85rem; line-height: 1.4; white-space: pre-wrap; word-wrap: break-word;">@Model.StackTrace</pre>
+        </details>
+    }
+
+    <div style="margin-top: 2rem;">
+        <a href="/" class="btn btn-primary" style="text-decoration: none;">Return to Dashboard</a>
+    </div>
+</div>

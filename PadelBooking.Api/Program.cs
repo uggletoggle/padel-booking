@@ -24,7 +24,7 @@ var keycloakAudience = builder.Configuration["Keycloak:Audience"]!;
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-    
+
 // Registering the generic repository
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
@@ -38,17 +38,6 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.OAuth2,
         Flows = new OpenApiOAuthFlows
         {
-            // Password flow so you can type username/password directly in Swagger UI
-            Password = new OpenApiOAuthFlow
-            {
-                TokenUrl = new Uri($"{keycloakAuthority}/protocol/openid-connect/token"),
-                AuthorizationUrl = new Uri($"{keycloakAuthority}/protocol/openid-connect/auth"),
-                Scopes = new Dictionary<string, string>
-                {
-                    { "openid", "OpenID Connect" },
-                    { "profile", "Profile" },
-                }
-            },
             // Authorization Code + PKCE — use this for the full browser redirect flow
             AuthorizationCode = new OpenApiOAuthFlow
             {

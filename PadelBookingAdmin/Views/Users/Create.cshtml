@@ -1,0 +1,67 @@
+@model PadelBookingAdmin.Models.Users.CreateAdminUserRequest
+
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <div style="margin-bottom: 1.5rem;">
+        <h2 class="card-title" style="margin: 0;">Create New User</h2>
+    </div>
+
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger" style="color: #ef4444; margin-bottom: 1rem;"></div>
+
+        <div style="margin-bottom: 1rem;">
+            <label asp-for="FirstName" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">First Name</label>
+            <input asp-for="FirstName" class="form-control" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-color); color: var(--text-color);" required />
+            <span asp-validation-for="FirstName" class="text-danger" style="color: #ef4444; font-size: 0.875rem;"></span>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+            <label asp-for="LastName" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Last Name</label>
+            <input asp-for="LastName" class="form-control" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-color); color: var(--text-color);" required />
+            <span asp-validation-for="LastName" class="text-danger" style="color: #ef4444; font-size: 0.875rem;"></span>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+            <label asp-for="Email" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email Address</label>
+            <input asp-for="Email" type="email" class="form-control" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-color); color: var(--text-color);" required />
+            <span asp-validation-for="Email" class="text-danger" style="color: #ef4444; font-size: 0.875rem;"></span>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+            <label asp-for="Password" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Password</label>
+            <input asp-for="Password" type="password" class="form-control" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-color); color: var(--text-color);" required />
+            <span asp-validation-for="Password" class="text-danger" style="color: #ef4444; font-size: 0.875rem;"></span>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+            <label asp-for="Role" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Role</label>
+            <select asp-for="Role" asp-items="Html.GetEnumSelectList<PadelBookingAdmin.Models.Users.UserRole>()" class="form-control" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-color); color: var(--text-color);">
+                <option value="">-- Select Role --</option>
+            </select>
+            <span asp-validation-for="Role" class="text-danger" style="color: #ef4444; font-size: 0.875rem;"></span>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <label asp-for="ClubId" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Club (Optional)</label>
+            <select asp-for="ClubId" class="form-control" style="width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 0.375rem; background-color: var(--bg-color); color: var(--text-color);">
+                <option value="">-- No Club assigned --</option>
+                @if (ViewBag.Clubs != null)
+                {
+                    foreach (var club in (List<PadelBookingAdmin.Models.Clubs.ClubResponse>)ViewBag.Clubs)
+                    {
+                        <option value="@club.Id">@club.Name</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="ClubId" class="text-danger" style="color: #ef4444; font-size: 0.875rem;"></span>
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+            <button type="submit" class="btn btn-primary">Create User</button>
+            <a asp-action="Index" class="btn" style="background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color);">Cancel</a>
+        </div>
+    </form>
+</div>

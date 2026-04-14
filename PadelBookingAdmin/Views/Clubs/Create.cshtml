@@ -1,0 +1,40 @@
+@model PadelBookingAdmin.Models.Clubs.CreateClubRequest
+
+@{
+    ViewData["Title"] = "Create Club";
+}
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h2 class="card-title">Add New Club</h2>
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Enter the details for the new padel club below.</p>
+
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="All" style="color: #ef4444; margin-bottom: 1rem;"></div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Name">Club Name</label>
+            <input class="form-control" asp-for="Name" required placeholder="e.g. Padel Star" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" asp-for="Address">Address</label>
+            <input class="form-control" asp-for="Address" required placeholder="Street address" />
+        </div>
+
+        <div class="form-group" style="display: flex; gap: 1rem;">
+            <div style="flex: 1;">
+                <label class="form-label" asp-for="OpenTime">Open Time</label>
+                <input class="form-control" type="time" asp-for="OpenTime" required />
+            </div>
+            <div style="flex: 1;">
+                <label class="form-label" asp-for="CloseTime">Close Time</label>
+                <input class="form-control" type="time" asp-for="CloseTime" required />
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <a asp-action="Index" class="btn" style="flex: 1; background-color: var(--border-color); color: var(--text-color);">Cancel</a>
+            <button type="submit" class="btn btn-primary" style="flex: 2;">Create Club</button>
+        </div>
+    </form>
+</div>

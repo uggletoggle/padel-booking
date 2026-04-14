@@ -73,6 +73,24 @@ services:
       keycloak:
         condition: service_started
 
+  admin:
+    build:
+      context: ../PadelBookingAdmin
+      dockerfile: Dockerfile
+    container_name: padelbooking-admin
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Keycloak__Authority: "https://auth.padel-booking.duckdns.org/realms/padelbooking"
+      Keycloak__ClientId: "padelbooking-admin"
+      Keycloak__ClientSecret: "${KEYCLOAK_ADMIN_CLIENT_SECRET:-admin-secret}"
+      Keycloak__RequireHttpsMetadata: "true"
+      ApiConfigs__PadelApi: "http://api:8080"
+    ports:
+      - "5001:8080"
+    depends_on:
+      - api
+      - keycloak
+
   caddy:
     image: caddy:2-alpine
     container_name: padelbooking-proxy
@@ -86,6 +104,7 @@ services:
       - caddy_config:/config
     depends_on:
       - api
+      - admin
       - keycloak
 volumes:
   sqlserver-data:

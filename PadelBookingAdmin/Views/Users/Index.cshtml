@@ -1,0 +1,43 @@
+@model List<PadelBookingAdmin.Models.Users.UserResponse>
+
+@{
+    ViewData["Title"] = "Users Management";
+}
+
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 class="card-title" style="margin: 0;">Users List</h2>
+        <a asp-action="Create" class="btn btn-primary">+ Add New User</a>
+    </div>
+
+    @if(!Model.Any())
+    {
+        <p style="color: var(--text-muted);">No users have been registered yet.</p>
+    } 
+    else 
+    {
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Club ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td><strong>@user.FirstName @user.LastName</strong></td>
+                            <td>@user.Email</td>
+                            <td>@user.Role.ToString()</td>
+                            <td>@(user.ClubId.HasValue ? user.ClubId.ToString() : "-")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
