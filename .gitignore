@@ -7,6 +7,11 @@
 .env
 .vscode/
 
+# Development settings
+appsettings.Development.json
+**/Properties/launchSettings.json
+*.http
+
 # User-specific files
 *.rsuser
 *.suo
