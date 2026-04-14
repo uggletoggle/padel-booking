@@ -82,10 +82,12 @@ services:
     container_name: padelbooking-admin
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
       Keycloak__Authority: "https://auth.padel-booking.duckdns.org/realms/padelbooking"
+      Keycloak__MetadataAddress: "http://keycloak:8080/realms/padelbooking/.well-known/openid-configuration"
       Keycloak__ClientId: "padelbooking-admin"
       Keycloak__ClientSecret: "${KEYCLOAK_ADMIN_CLIENT_SECRET:-admin-secret}"
-      Keycloak__RequireHttpsMetadata: "true"
+      Keycloak__RequireHttpsMetadata: "false"
       ApiConfigs__PadelApi: "http://api:8080"
     ports:
       - "5001:8080"

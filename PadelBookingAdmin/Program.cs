@@ -1,8 +1,17 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure forwarded headers for reverse proxy (Caddy)
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -32,11 +41,23 @@ builder.Services.AddAuthentication(options =>
     options.Scope.Add("email");
 
     options.RequireHttpsMetadata = keycloakConfig.GetValue<bool>("RequireHttpsMetadata", true);
+
+    // Use backchannel URL for token/metadata requests inside Docker network
+    var metadataAddress = keycloakConfig["MetadataAddress"];
+    if (!string.IsNullOrEmpty(metadataAddress))
+    {
+        options.MetadataAddress = metadataAddress;
+    }
     
+    // Disable Pushed Authorization Requests (PAR) — Keycloak 26+ enables it by default
+    // but the .NET OIDC handler doesn't support it natively
+    options.PushedAuthorizationBehavior = PushedAuthorizationBehavior.Disable;
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         NameClaimType = "preferred_username",
-        RoleClaimType = "roles"
+        RoleClaimType = "roles",
+        ValidIssuer = keycloakConfig["Authority"]
     };
 });
 
@@ -47,6 +68,9 @@ builder.Services.AddHttpClient("PadelApi", client =>
 });
 
 var app = builder.Build();
+
+// Must be first middleware — applies forwarded headers from reverse proxy
+app.UseForwardedHeaders();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler("/Home/Error");
